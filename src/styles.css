@@ -9,7 +9,7 @@
   --line: #292929;
   --accent: #b00016;
   --bright: #ff4554;
-  --deep: #650009;
+  --deep: #650009; --project-image-filter: none;
   --display: "Barlow Condensed", "Arial Narrow", sans-serif;
   --body: "Inter Variable", Arial, sans-serif;
   font: 14px/1.55 var(--body);
@@ -27,13 +27,14 @@
   --line: #d9ced0;
   --bright: #a5001c;
 }
-[data-palette="color-1"] { --accent: #2563eb; --bright: #7099ff; --deep: #152a70; }
-[data-palette="color-2"] { --accent: #304cc1; --bright: #859dff; --deep: #11194e; }
-[data-palette="color-3"] { --accent: #087a70; --bright: #42c7b8; --deep: #073831; }
-[data-palette="color-4"] { --accent: #5145cd; --bright: #a290ff; --deep: #24186c; }
-[data-palette="color-5"] { --accent: #475569; --bright: #a6b6ce; --deep: #293343; }
+[data-palette="color-1"] { --accent: #2563eb; --bright: #7099ff; --deep: #152a70; --project-image-filter: hue-rotate(225deg); }
+[data-palette="color-2"] { --accent: #eab308; --bright: #facc15; --deep: #594300; --project-image-filter: hue-rotate(60deg); }
+[data-palette="color-3"] { --accent: #087a70; --bright: #42c7b8; --deep: #073831; --project-image-filter: hue-rotate(175deg); }
+[data-palette="color-4"] { --accent: #5145cd; --bright: #a290ff; --deep: #24186c; --project-image-filter: hue-rotate(255deg); }
+[data-palette="color-5"] { --accent: #475569; --bright: #a6b6ce; --deep: #293343; --project-image-filter: grayscale(.9) hue-rotate(225deg) saturate(.4); }
 [data-theme="light"][data-palette="color-1"] { --bright: #1948ac; }
-[data-theme="light"][data-palette="color-2"] { --bright: #304cc1; }
+[data-theme="light"][data-palette="color-2"] { --bright: #806000; }
+[data-palette="color-2"] .button.primary { color: #171300; }
 [data-theme="light"][data-palette="color-3"] { --bright: #08685e; }
 [data-theme="light"][data-palette="color-4"] { --bright: #5145cd; }
 [data-theme="light"][data-palette="color-5"] { --bright: #475569; }
@@ -65,7 +66,7 @@ button, summary { cursor: pointer; }
 .swatch { width: 25px; height: 25px; border-radius: 50%; background: #b00016; }
 .swatch[aria-pressed="true"] { outline: 1px solid var(--text); outline-offset: 2px; }
 .swatch.color-1 { background: #2563eb; }
-.swatch.color-2 { background: #304cc1; }
+.swatch.color-2 { background: #eab308; }
 .swatch.color-3 { background: #087a70; }
 .swatch.color-4 { background: #5145cd; }
 .swatch.color-5 { background: #475569; }
@@ -120,7 +121,7 @@ button, summary { cursor: pointer; }
 }
 .project:hover, .project:focus-within { border-color: var(--accent); }
 .project-preview { aspect-ratio: 16 / 9; overflow: hidden; border-radius: 9px 9px 0 0; border-bottom: 1px solid var(--line); }
-.project-preview img { width: 100%; height: 100%; object-fit: cover; transition: transform .45s; }
+.project-preview img { width: 100%; height: 100%; object-fit: cover; filter: var(--project-image-filter); transition: transform .45s, filter .35s ease; }
 .project:hover .project-preview img { transform: scale(1.035); }
 .project-body { display: flex; flex: 1; flex-direction: column; align-items: flex-start; padding: clamp(16px, 2vw, 24px); }
 .project-title { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; width: 100%; }
@@ -236,16 +237,16 @@ address small { display: block; font-size: 8px; text-transform: uppercase; lette
 .footer-bar a { display: flex; align-items: center; gap: 7px; }
 .footer-bar a:hover { color: var(--bright); }
 .laptop { width: 100%; max-width: 390px; margin-inline: auto; transform: perspective(700px) rotateY(-13deg) rotateZ(3deg); container-type: inline-size; }
-.laptop-screen { width: 87%; margin-inline: auto; border: 1px solid #5e555a; border-radius: 8px 8px 3px 3px; background: #080808; padding: 7px; box-shadow: 0 0 40px #65000953; }
-.laptop-page { aspect-ratio: 1.55; position: relative; overflow: hidden; isolation: isolate; color: white; background: radial-gradient(ellipse at 50% 0, #3e0710, #080808 80%); }
+.laptop-screen { width: 87%; margin-inline: auto; border: 1px solid #5e555a; border-radius: 8px 8px 3px 3px; background: #080808; padding: 7px; box-shadow: 0 0 40px color-mix(in srgb, var(--accent) 28%, transparent); transition: box-shadow .3s ease; }
+.laptop-page { aspect-ratio: 1.55; position: relative; overflow: hidden; isolation: isolate; color: white; background: radial-gradient(ellipse at 50% 0, var(--deep), #080808 80%); }
 .laptop-page img { position: absolute; height: 100%; left: 29%; bottom: -10%; mask-image: linear-gradient(90deg, transparent, #000 21%, #000 87%, transparent); z-index: -1; }
 .mini-nav { display: flex; align-items: center; justify-content: space-between; padding: 3% 5%; border-bottom: 1px solid #ffffff2a; }
 .mini-nav b { font: 800 5cqw/1 var(--display); }
 .mini-nav span { font-size: 1.65cqw; }
-.mini-word { position: absolute; z-index: -2; inset: 15% 2% auto; font: 800 20cqw/.9 var(--display); letter-spacing: -.04em; text-align: center; color: #9e0c1b; }
+.mini-word { position: absolute; z-index: -2; inset: 15% 2% auto; font: 800 20cqw/.9 var(--display); letter-spacing: -.04em; text-align: center; color: var(--accent); transition: color .3s ease; }
 .mini-copy { position: absolute; left: 5%; bottom: 14%; }
 .mini-copy span, .mini-copy strong, .mini-copy small { display: block; }
-.mini-copy span { font: 400 6.5cqw/.9 "Explora", cursive; color: #ff4554; }
+.mini-copy span { font: 400 6.5cqw/.9 "Explora", cursive; color: var(--accent); transition: color .3s ease; }
 .mini-copy strong { font: 800 6.5cqw/1 var(--display); }
 .mini-copy small { font-size: 1.85cqw; }
 .laptop-base { height: 11cqw; background: linear-gradient(#6e6b70, #38383d 12%, #151518 70%, #4a484d); clip-path: polygon(7% 0, 93% 0, 100% 68%, 98% 87%, 3% 100%, 0 80%); padding: 1% 11%; text-align: center; }
@@ -351,6 +352,16 @@ address small { display: block; font-size: 8px; text-transform: uppercase; lette
   from { opacity: 0; transform: translateY(-6px); }
   to { opacity: 1; transform: translateY(0); }
 }
+.project {
+  border-color: color-mix(in srgb, var(--accent) 24%, var(--line));
+  background: color-mix(in srgb, var(--accent) 4%, var(--panel));
+  transition: border-color .25s, background-color .25s;
+}
+.project .tags li {
+  border-color: color-mix(in srgb, var(--accent) 30%, var(--line));
+  background: color-mix(in srgb, var(--accent) 5%, transparent);
+}
+.project .tags li:hover { border-color: var(--bright); }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation: none !important; transition: none !important; }
 }

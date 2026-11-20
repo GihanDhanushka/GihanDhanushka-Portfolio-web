@@ -33,7 +33,7 @@ const services = [
   ['Database design', 'Model and organize application data.'],
   ['Maintenance & support', 'Troubleshoot issues and maintain web applications.'],
 ]
-const palettes = { 'color-1': 'Blue', 'color-2': 'Navy', 'color-3': 'Teal', 'color-4': 'Indigo', 'color-5': 'Slate', red: 'Red' }
+const palettes = { 'color-1': 'Blue', 'color-2': 'Yellow', 'color-3': 'Teal', 'color-4': 'Indigo', 'color-5': 'Slate', red: 'Red' }
 const cv = import.meta.env.BASE_URL + 'gihan-dhanushka-cv.pdf'
 const revealItem = {
   hidden: { opacity: 0, y: 16 },
