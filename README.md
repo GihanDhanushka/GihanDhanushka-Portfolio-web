@@ -15,4 +15,4 @@ npm run build
 
 Run `npm run preview` to serve the production build from `dist/`. The existing GitHub Pages workflow builds and uploads that directory for pushes to `main`.
 
-Project links, descriptions, and skills are in `src/data.js`. Update the downloadable CV in `public/gihan-dhanushka-cv.html`. The contact form opens a draft in the visitor's email app.
+Project links, descriptions, and skills are in `src/data.js`. Update the downloadable CV in `public/gihan-dhanushka-cv.pdf`. The contact form opens a draft in the visitor's email app.

@@ -3,14 +3,14 @@ import { motion, useReducedMotion } from 'framer-motion'
 import {
   ArrowDown, ArrowDownToLine, ArrowUp, ArrowUpRight, BadgeCheck,
   ClipboardList, Code2, PenTool, GitFork, Globe, GraduationCap, BriefcaseBusiness,
-  Mail, MapPin, Menu, Moon, Palette, Search, Sparkle, Sun, X,
+  Mail, MapPin, Menu, Moon, Palette, Search, Sparkle, Sun, Trophy, X,
 } from 'lucide-react'
 import { email, github, linkedin, projects, skills } from './data'
 import portrait from './assets/portrait.png'
 
 const nav = [
   ['hero', 'Home'], ['about', 'About'], ['portfolio', 'Projects'],
-  ['skills', 'Skills'], ['experience', 'Experience'], ['contact', 'Contact'],
+  ['achievements', 'Awards'], ['skills', 'Skills'], ['experience', 'Experience'], ['contact', 'Contact'],
 ]
 const contactLinks = [
   { name: 'GitHub', detail: 'github.com/GihanDhanushka', url: github, icon: GitFork },
@@ -34,7 +34,11 @@ const services = [
   ['Maintenance & support', 'Troubleshoot issues and maintain web applications.'],
 ]
 const palettes = { 'color-1': 'Blue', 'color-2': 'Navy', 'color-3': 'Teal', 'color-4': 'Indigo', 'color-5': 'Slate', red: 'Red' }
-const cv = import.meta.env.BASE_URL + 'gihan-dhanushka-cv.html'
+const cv = import.meta.env.BASE_URL + 'gihan-dhanushka-cv.pdf'
+const revealItem = {
+  hidden: { opacity: 0, y: 16 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } },
+}
 
 function ExternalLink({ href, ...props }) {
   const external = href.startsWith('https://')
@@ -45,7 +49,7 @@ function Reveal({ children, className, delay = 0 }) {
   const reduced = useReducedMotion()
   return <motion.div className={className} initial={reduced ? false : { opacity: 0, y: 14 }}
     whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.12 }}
-    transition={{ duration: 0.42, delay }}>{children}</motion.div>
+    transition={{ duration: reduced ? 0 : 0.55, delay: reduced ? 0 : delay, ease: [0.22, 1, 0.36, 1] }}>{children}</motion.div>
 }
 
 function Navbar({ theme, setTheme, palette, setPalette }) {
@@ -130,17 +134,17 @@ function Hero() {
       <motion.img className="portrait" src={portrait} alt="Illustrated portrait of Gihan Dhanushka"
         fetchPriority="high" initial={reduced ? false : { opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.7 }} />
       <div className="hero-shade" aria-hidden="true" />
-      <motion.div className="hero-copy" initial={reduced ? false : { opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55, delay: 0.1 }}>
-        <p className="signature">Hello, I’m</p>
-        <h1 id="hero-name">Gihan Dhanushka</h1>
-        <p className="hero-role">Software Developer<br /><span>UI/UX Designer</span></p>
-        <p className="hero-description">Passionate Information Systems undergraduate focused on creating modern digital experiences, intuitive user interfaces, and innovative software solutions.</p>
-        <div className="hero-buttons flex flex-wrap">
+      <motion.div className="hero-copy" initial={reduced ? false : 'hidden'}
+        animate="visible" variants={{ visible: { transition: { staggerChildren: reduced ? 0 : 0.085, delayChildren: reduced ? 0 : 0.1 } } }}>
+        <motion.p variants={revealItem} className="signature">Hello, I’m</motion.p>
+        <motion.h1 variants={revealItem} id="hero-name">Gihan Dhanushka</motion.h1>
+        <motion.p variants={revealItem} className="hero-role">Software Developer<br /><span>UI/UX Designer</span></motion.p>
+        <motion.p variants={revealItem} className="hero-description">Passionate Information Systems undergraduate focused on creating modern digital experiences, intuitive user interfaces, and innovative software solutions.</motion.p>
+        <motion.div variants={revealItem} className="hero-buttons flex flex-wrap">
           <a className="button primary" href="#portfolio">View my projects <ArrowUpRight size={16} /></a>
           <a className="button outline" download href={cv}>Download CV <ArrowDownToLine size={15} /></a>
-        </div>
-        <Socials />
+        </motion.div>
+        <motion.div variants={revealItem}><Socials /></motion.div>
       </motion.div>
       <aside className="hero-aside">
         <Sparkle className="hero-spark" size={33} strokeWidth={1} aria-hidden="true" />
@@ -157,9 +161,11 @@ function Hero() {
 }
 
 function ProjectCard({ project, index }) {
+  const reduced = useReducedMotion()
   const { name, type, image, repo, demo, description, tags } = project
   return <Reveal delay={0.045 * (index % 4)} className="project-entry">
-    <article className="project">
+    <motion.article className="project" whileHover={reduced ? undefined : { y: -5 }}
+      transition={{ type: 'spring', stiffness: 260, damping: 25 }}>
       <div className="project-preview">
         <img src={image} width={1152} height={648} loading="lazy" decoding="async" alt="" />
       </div>
@@ -176,7 +182,7 @@ function ProjectCard({ project, index }) {
           {demo && <ExternalLink href={demo}>Live demo <ArrowUpRight size={15} /></ExternalLink>}
         </div>}
       </div>
-    </article>
+    </motion.article>
   </Reveal>
 }
 
@@ -186,6 +192,27 @@ function Projects() {
     <div className="project-grid">
       {projects.map((project, index) => <ProjectCard key={project.name} project={project} index={index} />)}
     </div>
+  </section>
+}
+
+function Achievements() {
+  return <section className="shell section achievements" id="achievements" aria-labelledby="achievements-title">
+    <div className="section-heading"><h2 id="achievements-title">Achievements</h2></div>
+    <Reveal>
+      <article className="achievement-card">
+        <div className="achievement-award">
+          <Trophy size={38} strokeWidth={1.3} aria-hidden="true" />
+          <p>1st Runner-Up</p>
+          <span>Team Shadow Sense</span>
+        </div>
+        <div className="achievement-copy">
+          <h3>Aurora 2026</h3>
+          <p className="achievement-level">University Level Competition</p>
+          <p>Our team, Shadow Sense, secured 1st Runner-Up at Aurora 2026. I’m proud to share this milestone and grateful to have achieved it together as a team.</p>
+          <p className="achievement-organizer">Organized by the Computer Science Association (CSA) at the University of Sri Jayewardenepura.</p>
+        </div>
+      </article>
+    </Reveal>
   </section>
 }
 
@@ -205,6 +232,7 @@ function About() {
 }
 
 function Practice() {
+  const reduced = useReducedMotion()
   return <div className="practice">
     <div className="shell practice-grid">
       <section className="skills section" id="skills">
@@ -217,18 +245,20 @@ function Practice() {
         </Reveal>
       </section>
       <section className="process section" id="experience">
-        <Reveal><h2 className="eyebrow">My Work Process</h2>
-          <ol>{process.map(([Icon, title, detail]) => <li key={title}>
+        <h2 className="eyebrow">My Work Process</h2>
+          <motion.ol initial={reduced ? false : 'hidden'} whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+            variants={{ visible: { transition: { staggerChildren: reduced ? 0 : 0.1 } } }}>
+            {process.map(([Icon, title, detail]) => <motion.li key={title} variants={revealItem}>
             <span className="process-icon"><Icon size={17} /></span><div><h3>{title}</h3><p>{detail}</p></div>
-          </li>)}</ol>
-        </Reveal>
+          </motion.li>)}</motion.ol>
       </section>
-      <aside className="quote section" aria-label="Design quote">
+      <aside className="quote section" aria-labelledby="design-approach-title">
         <Reveal>
-          <span className="quote-mark" aria-hidden="true">“</span>
-          <blockquote>Great design is not just how it looks, but how it works.</blockquote>
-          <p className="signature">Gihan Dhanushka</p>
-          <Sparkle size={24} strokeWidth={1} aria-hidden="true" />
+          <h2 className="eyebrow" id="design-approach-title">My Approach</h2>
+          <p className="quote-statement">Thoughtful design.<br /><span>Purposeful code.</span></p>
+          <p className="quote-description">I turn complex requirements into clear interfaces and practical software, with care for the people who use them.</p>
+          <a className="quote-link" href="#portfolio">Explore my work <ArrowUpRight size={17} /></a>
         </Reveal>
       </aside>
     </div>
@@ -310,7 +340,7 @@ export default function App() {
   return <>
     <a className="skip-link" href="#main">Skip to content</a>
     <Navbar theme={theme} setTheme={setTheme} palette={palette} setPalette={setPalette} />
-    <main id="main"><Hero /><Projects /><About /><Practice /></main>
+    <main id="main"><Hero /><Projects /><Achievements /><About /><Practice /></main>
     <Contact />
   </>
 }
